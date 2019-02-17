@@ -1,0 +1,48 @@
+1. 访问http://localhost:7777/ 出现的错误
+java.lang.IllegalArgumentException: Prometheus requires that all meters with the same name have the same set of tag keys. There is already an existing meter named 'http_server_requests_seconds' containing tag keys [exception, method, outcome, status, uri]. The meter you are attempting to register has keys [method, status, uri].
+	at io.micrometer.prometheus.PrometheusMeterRegistry.lambda$collectorByName$9(PrometheusMeterRegistry.java:372) ~[micrometer-registry-prometheus-1.1.2.jar:1.1.2]
+	at java.util.concurrent.ConcurrentHashMap.compute(ConcurrentHashMap.java:1877) ~[na:1.8.0_181]
+	at io.micrometer.prometheus.PrometheusMeterRegistry.collectorByName(PrometheusMeterRegistry.java:359) ~[micrometer-registry-prometheus-1.1.2.jar:1.1.2]
+	at io.micrometer.prometheus.PrometheusMeterRegistry.newTimer(PrometheusMeterRegistry.java:165) ~[micrometer-registry-prometheus-1.1.2.jar:1.1.2]
+	at io.micrometer.core.instrument.MeterRegistry.lambda$timer$2(MeterRegistry.java:271) ~[micrometer-core-1.1.2.jar:1.1.2]
+	at io.micrometer.core.instrument.MeterRegistry.getOrCreateMeter(MeterRegistry.java:580) ~[micrometer-core-1.1.2.jar:1.1.2]
+	at io.micrometer.core.instrument.MeterRegistry.registerMeterIfNecessary(MeterRegistry.java:543) ~[micrometer-core-1.1.2.jar:1.1.2]
+	at io.micrometer.core.instrument.MeterRegistry.timer(MeterRegistry.java:269) ~[micrometer-core-1.1.2.jar:1.1.2]
+	at io.micrometer.core.instrument.Timer$Builder.register(Timer.java:464) ~[micrometer-core-1.1.2.jar:1.1.2]
+	at zipkin2.autoconfigure.prometheus.ZipkinPrometheusMetricsAutoConfiguration$HttpRequestDurationHandler.lambda$handleRequest$0(ZipkinPrometheusMetricsAutoConfiguration.java:78) ~[zipkin-autoconfigure-metrics-prometheus-2.11.5.jar:na]
+	at io.undertow.server.HttpServerExchange.invokeExchangeCompleteListeners(HttpServerExchange.java:1276) ~[undertow-core-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.server.HttpServerExchange.terminateResponse(HttpServerExchange.java:1563) ~[undertow-core-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.server.Connectors.terminateResponse(Connectors.java:143) ~[undertow-core-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.server.protocol.http.ServerFixedLengthStreamSinkConduit.channelFinished(ServerFixedLengthStreamSinkConduit.java:58) ~[undertow-core-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.conduits.AbstractFixedLengthStreamSinkConduit.exitFlush(AbstractFixedLengthStreamSinkConduit.java:316) ~[undertow-core-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.conduits.AbstractFixedLengthStreamSinkConduit.flush(AbstractFixedLengthStreamSinkConduit.java:234) ~[undertow-core-2.0.16.Final.jar:2.0.16.Final]
+	at org.xnio.conduits.ConduitStreamSinkChannel.flush(ConduitStreamSinkChannel.java:162) ~[xnio-api-3.3.8.Final.jar:3.3.8.Final]
+	at io.undertow.channels.DetachableStreamSinkChannel.flush(DetachableStreamSinkChannel.java:119) ~[undertow-core-2.0.16.Final.jar:2.0.16.Final]
+	at org.xnio.channels.Channels.flushBlocking(Channels.java:63) ~[xnio-api-3.3.8.Final.jar:3.3.8.Final]
+	at io.undertow.servlet.spec.ServletOutputStreamImpl.close(ServletOutputStreamImpl.java:618) ~[undertow-servlet-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.servlet.spec.HttpServletResponseImpl.closeStreamAndWriter(HttpServletResponseImpl.java:486) ~[undertow-servlet-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.servlet.spec.HttpServletResponseImpl.responseDone(HttpServletResponseImpl.java:575) ~[undertow-servlet-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.servlet.handlers.ServletInitialHandler.handleFirstRequest(ServletInitialHandler.java:346) ~[undertow-servlet-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$100(ServletInitialHandler.java:81) ~[undertow-servlet-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:138) ~[undertow-servlet-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:135) ~[undertow-servlet-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.servlet.core.ServletRequestContextThreadSetupAction$1.call(ServletRequestContextThreadSetupAction.java:48) ~[undertow-servlet-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.servlet.core.ContextClassLoaderSetupAction$1.call(ContextClassLoaderSetupAction.java:43) ~[undertow-servlet-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.servlet.handlers.ServletInitialHandler.dispatchRequest(ServletInitialHandler.java:272) ~[undertow-servlet-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$000(ServletInitialHandler.java:81) ~[undertow-servlet-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.servlet.handlers.ServletInitialHandler$1.handleRequest(ServletInitialHandler.java:104) ~[undertow-servlet-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.server.Connectors.executeRootHandler(Connectors.java:360) ~[undertow-core-2.0.16.Final.jar:2.0.16.Final]
+	at io.undertow.server.HttpServerExchange$1.run(HttpServerExchange.java:830) [undertow-core-2.0.16.Final.jar:2.0.16.Final]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [na:1.8.0_181]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_181]
+
+
+解决
+
+
+management:
+  metrics:
+    web:
+      server:
+        auto-time-requests: false
